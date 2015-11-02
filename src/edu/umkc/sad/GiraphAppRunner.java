@@ -54,6 +54,7 @@ public class GiraphAppRunner implements Tool {
 		// TODO Auto-generated method stub
 		setInputPath("/home/anvesh/Documents/Giraph/ShortestPath/input");
 		setOutputPath("/home/anvesh/Documents/Giraph/ShortestPath/output");
+
 		
 		GiraphConfiguration giconf = new GiraphConfiguration(getConf());
         		
