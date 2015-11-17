@@ -1,16 +1,18 @@
-package edu.umkc;
+package edu.umkc.arch.script;
 
 
-import edu.umkc.GiraphArch;
+import edu.umkc.arch.script.ScriptArch;
 
-public interface IGiraphSingleImp 
+import org.apache.giraph.scripting.ScriptLoader;
+
+public interface IScriptLoaderComponentImp 
 {
 
 	/*
 	  Getter and Setter of architecture reference
 	*/
-    public void setArch (GiraphArch arch);
-	public GiraphArch getArch();
+    public void setArch (ScriptArch arch);
+	public ScriptArch getArch();
 	
 	/*
   	  Myx Lifecycle Methods: these methods are called automatically by the framework
@@ -24,4 +26,8 @@ public interface IGiraphSingleImp
 	/*
   	  Implementation primitives required by the architecture
 	*/
+  
+    //To be imported: ScriptLoader
+    public ScriptLoader getScriptLoaderObject ()  ;        
+    
 }

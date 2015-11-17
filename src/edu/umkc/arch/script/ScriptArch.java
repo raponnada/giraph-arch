@@ -1,4 +1,4 @@
-package edu.umkc;
+package edu.umkc.arch.script;
 
 
 import edu.uci.isr.myx.fw.AbstractMyxSimpleBrick;
@@ -7,15 +7,16 @@ import edu.uci.isr.myx.fw.MyxUtils;
 
 import org.apache.giraph.scriptLoaderInterface.ScriptLoaderInterface;
 
-public class GiraphArch extends AbstractMyxSimpleBrick
+import org.apache.giraph.scripting.ScriptLoader;
+
+public class ScriptArch extends AbstractMyxSimpleBrick implements ScriptLoaderInterface
 {
     public static final IMyxName msg_ScriptLoaderInterface = MyxUtils.createName("org.apache.giraph.scriptLoaderInterface.ScriptLoaderInterface");
 
-    public ScriptLoaderInterface OUT_ScriptLoaderInterface;
 
-	private IGiraphSingleImp _imp;
+	private IScriptLoaderComponentImp _imp;
 
-    public GiraphArch (){
+    public ScriptArch (){
 		_imp = getImplementation();
 		if (_imp != null){
 			_imp.setArch(this);
@@ -24,9 +25,9 @@ public class GiraphArch extends AbstractMyxSimpleBrick
 		}
 	}
     
-    protected IGiraphSingleImp getImplementation(){
+    protected IScriptLoaderComponentImp getImplementation(){
         try{
-			return new GiraphImp();    
+			return new ScriptImpl();    
         } catch (Exception e){
             System.err.println(e.getMessage());
             return null;
@@ -38,11 +39,6 @@ public class GiraphArch extends AbstractMyxSimpleBrick
     }
     
     public void begin(){
-        OUT_ScriptLoaderInterface = (ScriptLoaderInterface) MyxUtils.getFirstRequiredServiceObject(this,msg_ScriptLoaderInterface);
-        if (OUT_ScriptLoaderInterface == null){
- 			System.err.println("Error: Interface org.apache.giraph.scriptLoaderInterface.ScriptLoaderInterface returned null");
-			return;       
-        }
         _imp.begin();
     }
     
@@ -55,6 +51,14 @@ public class GiraphArch extends AbstractMyxSimpleBrick
     }
     
 	public Object getServiceObject(IMyxName arg0) {
+		if (arg0.equals(msg_ScriptLoaderInterface)){
+			return this;
+		}        
 		return null;
 	}
+  
+    //To be imported: ScriptLoader
+    public ScriptLoader getScriptLoaderObject ()   {
+		return _imp.getScriptLoaderObject();
+    }    
 }
