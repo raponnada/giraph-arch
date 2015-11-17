@@ -22,9 +22,10 @@ import org.apache.giraph.conf.ImmutableClassesGiraphConfiguration;
 import org.apache.giraph.comm.netty.InboundByteCounter;
 import org.apache.giraph.comm.requests.RequestType;
 import org.apache.giraph.comm.requests.WritableRequest;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
-import org.apache.giraph.time.Times;
+import edu.umkc.sad.Time.SystemTime;
+// import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.ITimeImp;
+import edu.umkc.sad.Time.Times;
 import org.apache.giraph.utils.ReflectionUtils;
 import org.apache.giraph.utils.RequestUtils;
 import org.apache.log4j.Logger;
@@ -42,7 +43,7 @@ public class RequestDecoder extends ChannelInboundHandlerAdapter {
   private static final Logger LOG =
       Logger.getLogger(RequestDecoder.class);
   /** Time class to use */
-  private static final Time TIME = SystemTime.get();
+  private static final ITimeImp TIME = SystemTime.get();
   /** Configuration */
   private final ImmutableClassesGiraphConfiguration conf;
   /** In bound byte counter to output */

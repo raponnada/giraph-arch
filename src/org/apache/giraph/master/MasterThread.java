@@ -22,7 +22,7 @@ import org.apache.giraph.bsp.ApplicationState;
 import org.apache.giraph.bsp.BspService;
 import org.apache.giraph.bsp.CentralizedServiceMaster;
 import org.apache.giraph.bsp.SuperstepState;
-import org.apache.giraph.counters.GiraphTimers;
+import edu.umkc.sad.Counters.Source.GiraphTimers;
 import org.apache.giraph.graph.Computation;
 import org.apache.giraph.metrics.GiraphMetrics;
 import org.apache.hadoop.io.Writable;

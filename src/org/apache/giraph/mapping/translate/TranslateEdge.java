@@ -18,7 +18,7 @@
 
 package org.apache.giraph.mapping.translate;
 
-import org.apache.giraph.conf.ImmutableClassesGiraphConfigurable;
+import edu.umkc.sad.*;
 import org.apache.giraph.worker.BspServiceWorker;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;

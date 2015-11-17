@@ -22,9 +22,10 @@ import io.netty.buffer.ByteBufOutputStream;
 import org.apache.giraph.comm.requests.WritableRequest;
 import org.apache.giraph.conf.GiraphConfiguration;
 import org.apache.giraph.conf.GiraphConstants;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
-import org.apache.giraph.time.Times;
+import edu.umkc.sad.Time.SystemTime;
+//import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.ITimeImp;
+import edu.umkc.sad.Time.Times;
 import org.apache.log4j.Logger;
 
 import io.netty.buffer.ByteBuf;
@@ -42,7 +43,7 @@ public class RequestEncoder extends ChannelOutboundHandlerAdapter {
   /** Class logger */
   private static final Logger LOG = Logger.getLogger(RequestEncoder.class);
   /** Time class to use */
-  private static final Time TIME = SystemTime.get();
+  private static final ITimeImp TIME = SystemTime.get();
   /** Buffer starting size */
   private final int bufferStartingSize;
   /** Start nanoseconds for the encoding time */

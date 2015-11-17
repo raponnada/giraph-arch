@@ -18,7 +18,7 @@
 
 package org.apache.giraph.worker;
 
-import org.apache.giraph.conf.ImmutableClassesGiraphConfigurable;
+import edu.umkc.sad.*;
 
 /**
  * Observer for worker. The user can subclass and register an observer with the

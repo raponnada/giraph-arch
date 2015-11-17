@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.giraph.comm.WorkerClientRequestProcessor;
-import org.apache.giraph.conf.ImmutableClassesGiraphConfigurable;
+import edu.umkc.sad.*;
 import org.apache.giraph.conf.TypesHolder;
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.edge.OutEdges;

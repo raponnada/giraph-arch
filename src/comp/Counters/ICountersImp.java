@@ -1,0 +1,36 @@
+package comp.Counters;
+
+
+import comp.Counters.CountersArch;
+
+import edu.umkc.sad.Counters.Source.GiraphHadoopCounter;
+import edu.umkc.sad.Counters.Source.GiraphTimers;
+
+import org.apache.hadoop.mapreduce.Mapper.Context;
+
+public interface ICountersImp 
+{
+
+	/*
+	  Getter and Setter of architecture reference
+	*/
+    public void setArch (CountersArch arch);
+	public CountersArch getArch();
+	
+	/*
+  	  Myx Lifecycle Methods: these methods are called automatically by the framework
+  	  as the bricks are created, attached, detached, and destroyed respectively.
+	*/	
+	public void init();	
+	public void begin();
+	public void end();
+	public void destroy();
+
+	/*
+  	  Implementation primitives required by the architecture
+	*/
+  
+    //To be imported: Context,GiraphHadoopCounter,GiraphTimers
+    public void init (Context context)  ;        
+    public GiraphTimers getInstance ()  ;        
+}

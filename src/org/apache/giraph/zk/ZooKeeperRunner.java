@@ -17,7 +17,7 @@
  */
 package org.apache.giraph.zk;
 
-import org.apache.giraph.conf.ImmutableClassesGiraphConfigurable;
+import edu.umkc.sad.*;
 
 /**
  * ZooKeeper wrapper interface.

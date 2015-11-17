@@ -21,6 +21,8 @@ package org.apache.giraph.conf;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
 
+import edu.umkc.sad.ImmutableClassesGiraphConfigurable;
+
 /**
  * Default implementation of ImmutableClassesGiraphConfigurable
  *

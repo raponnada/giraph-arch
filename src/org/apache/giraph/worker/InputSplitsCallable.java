@@ -32,9 +32,11 @@ import org.apache.giraph.metrics.GiraphMetrics;
 import org.apache.giraph.metrics.GiraphMetricsRegistry;
 import org.apache.giraph.metrics.MeterDesc;
 import org.apache.giraph.metrics.MetricNames;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
-import org.apache.giraph.time.Times;
+import edu.umkc.sad.Time.SystemTime;
+import edu.umkc.sad.Time.ITime;
+//import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.ITimeImp;
+import edu.umkc.sad.Time.Times;
 import org.apache.giraph.zk.ZooKeeperExt;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
@@ -63,7 +65,7 @@ public abstract class InputSplitsCallable<I extends WritableComparable,
   /** Class logger */
   private static final Logger LOG = Logger.getLogger(InputSplitsCallable.class);
   /** Class time object */
-  private static final Time TIME = SystemTime.get();
+  private static final ITimeImp TIME = SystemTime.get();
   /** Configuration */
   protected final ImmutableClassesGiraphConfiguration<I, V, E> configuration;
   /** Context */
@@ -230,7 +232,7 @@ public abstract class InputSplitsCallable<I extends WritableComparable,
 
     if (LOG.isInfoEnabled()) {
       float seconds = Times.getNanosSince(TIME, startNanos) /
-          Time.NS_PER_SECOND_AS_FLOAT;
+          ITime.NS_PER_SECOND_AS_FLOAT;
       float verticesPerSecond = vertexEdgeCount.getVertexCount() / seconds;
       float edgesPerSecond = vertexEdgeCount.getEdgeCount() / seconds;
       LOG.info("call: Loaded " + inputSplitsProcessed + " " +

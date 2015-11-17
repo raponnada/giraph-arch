@@ -26,8 +26,9 @@ import io.netty.buffer.ByteBuf;
 import org.apache.giraph.metrics.MeterDesc;
 import org.apache.giraph.metrics.MetricNames;
 import org.apache.giraph.metrics.SuperstepMetricsRegistry;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
+//import edu.umkc.sad.Time.SystemTime;
+import edu.umkc.sad.Time.ITimeImp;
+import edu.umkc.sad.Time.SystemTime;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicLong;
@@ -43,7 +44,8 @@ public class ByteCounterDelegate implements ByteCounter {
   private static final DecimalFormat DOUBLE_FORMAT =
       new DecimalFormat("#######.####");
   /** Class timer */
-  private static final Time TIME = SystemTime.get();
+  // GiraphImp gimp = new GiraphImp();
+  private static final ITimeImp TIME = SystemTime.get();
   /** All bytes ever processed */
   private final AtomicLong bytesProcessed = new AtomicLong();
   /** Total processed requests */

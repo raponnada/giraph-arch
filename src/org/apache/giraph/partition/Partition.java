@@ -18,7 +18,7 @@
 
 package org.apache.giraph.partition;
 
-import org.apache.giraph.conf.ImmutableClassesGiraphConfigurable;
+import edu.umkc.sad.*;
 import org.apache.giraph.graph.Vertex;
 import org.apache.giraph.utils.VertexIterator;
 import org.apache.hadoop.io.Writable;

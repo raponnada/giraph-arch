@@ -23,8 +23,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.SystemTime;
+//import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.ITimeImp;
 import org.apache.hadoop.util.Progressable;
 import org.apache.log4j.Logger;
 
@@ -48,7 +49,7 @@ public class PredicateLock implements BspEvent {
   /** Predicate */
   private boolean eventOccurred = false;
   /** Keeps track of the time */
-  private final Time time;
+  private final ITimeImp time;
 
   /**
    * Constructor with default values.
@@ -66,7 +67,7 @@ public class PredicateLock implements BspEvent {
    * @param msecPeriod Msecs between progress reports
    * @param time Time implementation
    */
-  public PredicateLock(Progressable progressable, int msecPeriod, Time time) {
+  public PredicateLock(Progressable progressable, int msecPeriod, ITimeImp time) {
     this.progressable = progressable;
     this.msecPeriod = msecPeriod;
     this.time = time;

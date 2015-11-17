@@ -18,9 +18,10 @@
 
 package org.apache.giraph.metrics;
 
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
-import org.apache.giraph.time.Times;
+import edu.umkc.sad.Time.SystemTime;
+//import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.Times;
+import edu.umkc.sad.Time.ITimeImp;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class GiraphTimerContext {
   /** Object to use for time measurement */
-  private static Time TIME = SystemTime.get();
+  private static ITimeImp TIME = SystemTime.get();
 
   /** GiraphTimer to callback to with result of timing */
   private GiraphTimer giraphTimer;

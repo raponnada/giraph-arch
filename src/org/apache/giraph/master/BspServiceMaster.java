@@ -45,6 +45,10 @@ import java.util.concurrent.TimeUnit;
 
 import net.iharder.Base64;
 
+import edu.umkc.sad.Counters.Source.GiraphStats;
+
+import edu.umkc.sad.Time.ITimeImp;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.giraph.bsp.ApplicationState;
 import org.apache.giraph.bsp.BspInputFormat;
@@ -60,7 +64,6 @@ import org.apache.giraph.comm.netty.NettyMasterServer;
 import org.apache.giraph.conf.GiraphConfiguration;
 import org.apache.giraph.conf.GiraphConstants;
 import org.apache.giraph.conf.ImmutableClassesGiraphConfiguration;
-import org.apache.giraph.counters.GiraphStats;
 import org.apache.giraph.graph.AddressesAndPartitionsWritable;
 import org.apache.giraph.graph.GlobalStats;
 import org.apache.giraph.graph.GraphFunctions;
@@ -84,8 +87,8 @@ import org.apache.giraph.partition.MasterGraphPartitioner;
 import org.apache.giraph.partition.PartitionOwner;
 import org.apache.giraph.partition.PartitionStats;
 import org.apache.giraph.partition.PartitionUtils;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.SystemTime;
+//import org.apache.giraph.time.Time;
 import org.apache.giraph.utils.CheckpointingUtils;
 import org.apache.giraph.utils.JMapHistoDumper;
 import org.apache.giraph.utils.LogStacktraceCallable;
@@ -139,7 +142,7 @@ public class BspServiceMaster<I extends WritableComparable,
   /** Default number of threads to use when writing input splits to zookeeper */
   public static final int DEFAULT_INPUT_SPLIT_THREAD_COUNT = 1;
   /** Time instance to use for timing */
-  private static final Time TIME = SystemTime.get();
+  private static final ITimeImp TIME = SystemTime.get();
   /** Class logger */
   private static final Logger LOG = Logger.getLogger(BspServiceMaster.class);
   /** Am I the master? */

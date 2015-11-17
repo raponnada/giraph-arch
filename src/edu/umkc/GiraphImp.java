@@ -1,8 +1,9 @@
 package edu.umkc;
 
 import edu.umkc.sad.GiraphAppRunner_PageRank;
+import org.apache.hadoop.mapreduce.Mapper.Context;
 
-public class GiraphImp implements IGiraphSingleImp
+public class GiraphImp implements IGiraphImp
 {
 	private GiraphArch _arch;
 
@@ -26,6 +27,7 @@ public class GiraphImp implements IGiraphSingleImp
 	public void begin(){
 		//TODO Auto-generated method stub
 		try {
+			System.out.println("Component 0 started");
 			GiraphAppRunner_PageRank.main(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -42,4 +44,11 @@ public class GiraphImp implements IGiraphSingleImp
 	/*
   	  Implementation primitives required by the architecture
 	*/
+	public void setInit(Context context){
+		System.out.println("GiraphImp -user code set init");
+		_arch.OUT_IGiraphTimers.init(context);
+	} 
+	
+	
+	
 }

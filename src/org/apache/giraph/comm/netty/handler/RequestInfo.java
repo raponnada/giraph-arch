@@ -19,8 +19,10 @@
 package org.apache.giraph.comm.netty.handler;
 
 import org.apache.giraph.comm.requests.WritableRequest;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.SystemTime;
+//import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.ITimeImp;
+import edu.umkc.sad.Time.ITime;
 import io.netty.channel.ChannelFuture;
 
 import java.net.InetSocketAddress;
@@ -31,7 +33,7 @@ import java.util.Date;
  */
 public class RequestInfo {
   /** Time class to use */
-  private static final Time TIME = SystemTime.get();
+  private static final ITimeImp TIME = SystemTime.get();
   /** Destination of the request */
   private final InetSocketAddress destinationAddress;
   /** When the request was started */
@@ -64,7 +66,7 @@ public class RequestInfo {
    * @return Started msecs
    */
   public long getStartedMsecs() {
-    return startedNanos / Time.NS_PER_MS;
+    return startedNanos / ITime.NS_PER_MS;
   }
 
   /**
@@ -82,7 +84,7 @@ public class RequestInfo {
    * @return Milliseconds since the request was started
    */
   public long getElapsedMsecs() {
-    return getElapsedNanos() / Time.NS_PER_MS;
+    return getElapsedNanos() / ITime.NS_PER_MS;
   }
 
 

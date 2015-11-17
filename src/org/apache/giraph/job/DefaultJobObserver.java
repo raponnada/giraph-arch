@@ -18,7 +18,7 @@
 
 package org.apache.giraph.job;
 
-import org.apache.giraph.conf.ImmutableClassesGiraphConfigurable;
+import edu.umkc.sad.*;
 import org.apache.giraph.conf.ImmutableClassesGiraphConfiguration;
 import org.apache.hadoop.mapreduce.Job;
 

@@ -21,9 +21,11 @@ package org.apache.giraph.worker;
 import com.google.common.collect.Lists;
 import org.apache.giraph.conf.ImmutableClassesGiraphConfiguration;
 import org.apache.giraph.io.GiraphInputFormat;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
-import org.apache.giraph.time.Times;
+import edu.umkc.sad.Time.SystemTime;
+import edu.umkc.sad.Time.ITime;
+//import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.ITimeImp;
+import edu.umkc.sad.Time.Times;
 import org.apache.giraph.zk.ZooKeeperExt;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
@@ -53,7 +55,7 @@ public abstract class FullInputSplitCallable<I extends WritableComparable,
   private static final Logger LOG = Logger.getLogger(
     FullInputSplitCallable.class);
   /** Class time object */
-  private static final Time TIME = SystemTime.get();
+  private static final ITimeImp TIME = SystemTime.get();
   /** Configuration */
   protected final ImmutableClassesGiraphConfiguration<I, V, E> configuration;
   /** Context */
@@ -139,7 +141,7 @@ public abstract class FullInputSplitCallable<I extends WritableComparable,
 
     if (LOG.isInfoEnabled()) {
       float seconds = Times.getNanosSince(TIME, startNanos) /
-          Time.NS_PER_SECOND_AS_FLOAT;
+          ITime.NS_PER_SECOND_AS_FLOAT;
       float entriesPerSecond = entries / seconds;
       LOG.info("call: Loaded " + inputSplitsProcessed + " " +
           "input splits in " + seconds + " secs, " + entries +

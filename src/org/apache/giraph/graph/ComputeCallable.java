@@ -34,9 +34,12 @@ import org.apache.giraph.metrics.SuperstepMetricsRegistry;
 import org.apache.giraph.partition.Partition;
 import org.apache.giraph.partition.PartitionStats;
 import org.apache.giraph.partition.PartitionStore;
-import org.apache.giraph.time.SystemTime;
-import org.apache.giraph.time.Time;
-import org.apache.giraph.time.Times;
+import edu.umkc.sad.Time.SystemTime;
+import edu.umkc.sad.Time.ITime;
+//import org.apache.giraph.time.Time;
+import edu.umkc.sad.Time.ITimeImp;
+
+import edu.umkc.sad.Time.Times;
 import org.apache.giraph.utils.MemoryUtils;
 import org.apache.giraph.utils.TimedLogger;
 import org.apache.giraph.utils.Trimmable;
@@ -73,7 +76,7 @@ public class ComputeCallable<I extends WritableComparable, V extends Writable,
   /** Class logger */
   private static final Logger LOG  = Logger.getLogger(ComputeCallable.class);
   /** Class time object */
-  private static final Time TIME = SystemTime.get();
+  private static final ITimeImp TIME = SystemTime.get();
   /** How often to update WorkerProgress */
   private static final long VERTICES_TO_UPDATE_PROGRESS = 100000;
   /** Context */
@@ -193,7 +196,7 @@ public class ComputeCallable<I extends WritableComparable, V extends Writable,
 
     if (LOG.isInfoEnabled()) {
       float seconds = Times.getNanosSince(TIME, startNanos) /
-          Time.NS_PER_SECOND_AS_FLOAT;
+          ITime.NS_PER_SECOND_AS_FLOAT;
       LOG.info("call: Computation took " + seconds + " secs for "  +
           partitionStatsList.size() + " partitions on superstep " +
           graphState.getSuperstep() + ".  Flushing started");

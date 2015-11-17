@@ -21,9 +21,10 @@ package org.apache.giraph.aggregators;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-import org.apache.giraph.conf.ImmutableClassesGiraphConfigurable;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper.Context;
+
+import edu.umkc.sad.ImmutableClassesGiraphConfigurable;
 
 /**
  *  An AggregatorWriter is used to export Aggregators during or at the end of
