@@ -36,12 +36,16 @@ import org.apache.hadoop.util.ToolRunner;
 
 import com.google.common.collect.Sets;
 
+import edu.umkc.arch.script.IScriptLoaderComponentImp;
+
 import java.util.Set;
 
 /**
  * Benchmark for {@link PageRankComputation}
  */
 public class PageRankBenchmark extends GiraphBenchmark {
+	
+  IScriptLoaderComponentImp _iScriptLoaderComponentImp;
   @Override
   public Set<BenchmarkOption> getBenchmarkOptions() {
     return Sets.newHashSet(BenchmarkOption.VERTICES,
@@ -69,7 +73,10 @@ public class PageRankBenchmark extends GiraphBenchmark {
         deployType = DeployType.RESOURCE;
         script = ReflectionUtils.getPackagePath(this) + "/page-rank.py";
       }
-      ScriptLoader.setScriptsToLoad(conf, script, deployType, Language.JYTHON);
+      
+      // Modification ScriptLoader
+     // ScriptLoader.setScriptsToLoad(conf, script, deployType, Language.JYTHON);
+      _iScriptLoaderComponentImp.setScriptsToLoad(conf, script, deployType, Language.JYTHON);
       types.writeIfUnset(conf);
       JythonUtils.init(conf, "PageRank");
     } else {

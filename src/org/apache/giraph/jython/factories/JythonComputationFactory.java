@@ -25,11 +25,12 @@ import org.apache.giraph.jython.JythonComputation;
 import org.apache.giraph.jython.JythonGiraphComputation;
 import org.apache.giraph.jython.JythonOptions;
 import org.apache.giraph.jython.JythonUtils;
-import org.apache.giraph.scripting.ScriptLoader;
+//import org.apache.giraph.scripting.ScriptLoader;
 import org.apache.log4j.Logger;
 import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 
+import edu.umkc.arch.script.IScriptLoaderComponentImp;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.apache.giraph.scripting.ScriptLoader.SCRIPTS_TO_LOAD;
 
@@ -39,6 +40,8 @@ import static org.apache.giraph.scripting.ScriptLoader.SCRIPTS_TO_LOAD;
 public class JythonComputationFactory implements ComputationFactory {
   /** The Jython compute function, cached here for fast access */
   private static volatile PyObject JYTHON_COMPUTATION_MODULE;
+  
+   IScriptLoaderComponentImp _iScriptLoaderComponentImp;
 
   /** Logger */
   private static final Logger LOG = Logger.getLogger(JythonUtils.class);
@@ -66,9 +69,14 @@ public class JythonComputationFactory implements ComputationFactory {
     PythonInterpreter interpreter = JythonUtils.getInterpreter();
     String className = computationName(conf);
     PyObject pyComputationModule = interpreter.get(className);
+    // ScriptLoader Implementation 
+//    checkNotNull(pyComputationModule,
+//        "Could not find Jython Computation class " + className +
+//        " in loaded scripts: " + ScriptLoader.getLoadedScripts());
     checkNotNull(pyComputationModule,
-        "Could not find Jython Computation class " + className +
-        " in loaded scripts: " + ScriptLoader.getLoadedScripts());
+          "Could not find Jython Computation class " + className +
+          " in loaded scripts: " + _iScriptLoaderComponentImp.getLoadedScripts());
+    
     setPythonComputationModule(pyComputationModule);
   }
 
@@ -77,7 +85,7 @@ public class JythonComputationFactory implements ComputationFactory {
       ImmutableClassesGiraphConfiguration conf) {
     checkNotNull(JYTHON_COMPUTATION_MODULE,
         "Jython Computation class not set in loaded scripts: " +
-        ScriptLoader.getLoadedScripts());
+        _iScriptLoaderComponentImp.getLoadedScripts());
 
     PyObject pyComputationObj = JYTHON_COMPUTATION_MODULE.__call__();
     Object computeObj = pyComputationObj.__tojava__(JythonComputation.class);

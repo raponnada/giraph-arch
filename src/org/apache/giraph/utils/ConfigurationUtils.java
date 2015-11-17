@@ -65,6 +65,8 @@ import org.apache.zookeeper.ZooKeeper;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
+import edu.umkc.arch.script.IScriptLoaderComponentImp;
+
 /**
  * Translate command line args into Configuration Key-Value pairs.
  */
@@ -72,6 +74,7 @@ public final class ConfigurationUtils {
   /** Class logger */
   private static final Logger LOG =
     Logger.getLogger(ConfigurationUtils.class);
+    static IScriptLoaderComponentImp _iScriptLoaderComponentImp;
 /*if[PURE_YARN]
   // The base path for output dirs as saved in GiraphConfiguration
   private static final Path BASE_OUTPUT_PATH;
@@ -518,7 +521,7 @@ end[PURE_YARN]*/
     Path path = new Path(scriptPath);
     Path remotePath = DistributedCacheUtils.copyAndAdd(path, conf);
 
-    ScriptLoader.setScriptsToLoad(conf, remotePath.toString(),
+    _iScriptLoaderComponentImp.setScriptsToLoad(conf, remotePath.toString(),
         DeployType.DISTRIBUTED_CACHE, Language.JYTHON);
 
     GiraphTypes.readFrom(conf).writeIfUnset(conf);

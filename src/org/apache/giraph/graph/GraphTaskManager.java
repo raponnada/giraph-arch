@@ -70,6 +70,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import edu.umkc.arch.script.IScriptLoaderComponentImp;
+
 /**
  * The Giraph-specific business logic for a single BSP
  * compute node in whatever underlying type of cluster
@@ -85,6 +87,7 @@ import org.apache.log4j.PatternLayout;
 public class GraphTaskManager<I extends WritableComparable, V extends Writable,
   E extends Writable> implements
   ResetSuperstepMetricsObserver {
+  IScriptLoaderComponentImp _iScriptLoaderComponentImp;
 /*if_not[PURE_YARN]
   static { // Eliminate this? Even MRv1 tasks should not need it here.
     Configuration.addDefaultResource("giraph-site.xml");
@@ -218,7 +221,9 @@ end[PURE_YARN]*/
     // Check input
     checkInput();
     // Load any scripts that were deployed
-    ScriptLoader.loadScripts(conf);
+    // ScriptLoader Modification 
+    //ScriptLoader.loadScripts(conf);
+    _iScriptLoaderComponentImp.loadScripts(conf);
     // One time setup for computation factory
     conf.createComputationFactory().initialize(conf);
     // Do some task setup (possibly starting up a Zookeeper service)
