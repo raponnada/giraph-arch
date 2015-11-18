@@ -223,7 +223,7 @@ end[PURE_YARN]*/
     // Load any scripts that were deployed
     // ScriptLoader Modification 
     //ScriptLoader.loadScripts(conf);
-    _iScriptLoaderComponentImp.loadScripts(conf);
+    _iScriptLoaderComponentImp.getArch().loadScripts(conf);
     // One time setup for computation factory
     conf.createComputationFactory().initialize(conf);
     // Do some task setup (possibly starting up a Zookeeper service)

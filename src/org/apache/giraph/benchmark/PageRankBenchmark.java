@@ -27,7 +27,6 @@ import org.apache.giraph.graph.Language;
 import org.apache.giraph.io.formats.PseudoRandomInputFormatConstants;
 import org.apache.giraph.io.formats.PseudoRandomIntNullVertexInputFormat;
 import org.apache.giraph.scripting.DeployType;
-import org.apache.giraph.scripting.ScriptLoader;
 import org.apache.giraph.jython.JythonUtils;
 import org.apache.giraph.utils.DistributedCacheUtils;
 import org.apache.giraph.utils.ReflectionUtils;
@@ -37,6 +36,7 @@ import org.apache.hadoop.util.ToolRunner;
 import com.google.common.collect.Sets;
 
 import edu.umkc.arch.script.IScriptLoaderComponentImp;
+import edu.umkc.arch.script.ScriptArch;
 
 import java.util.Set;
 
@@ -76,7 +76,7 @@ public class PageRankBenchmark extends GiraphBenchmark {
       
       // Modification ScriptLoader
      // ScriptLoader.setScriptsToLoad(conf, script, deployType, Language.JYTHON);
-      _iScriptLoaderComponentImp.setScriptsToLoad(conf, script, deployType, Language.JYTHON);
+      _iScriptLoaderComponentImp.getArch().setScriptsToLoad(conf, script, deployType, Language.JYTHON);
       types.writeIfUnset(conf);
       JythonUtils.init(conf, "PageRank");
     } else {

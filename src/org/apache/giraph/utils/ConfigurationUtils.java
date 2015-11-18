@@ -521,7 +521,7 @@ end[PURE_YARN]*/
     Path path = new Path(scriptPath);
     Path remotePath = DistributedCacheUtils.copyAndAdd(path, conf);
 
-    _iScriptLoaderComponentImp.setScriptsToLoad(conf, remotePath.toString(),
+    _iScriptLoaderComponentImp.getArch().setScriptsToLoad(conf, remotePath.toString(),
         DeployType.DISTRIBUTED_CACHE, Language.JYTHON);
 
     GiraphTypes.readFrom(conf).writeIfUnset(conf);
