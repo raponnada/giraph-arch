@@ -75,7 +75,7 @@ public class JythonComputationFactory implements ComputationFactory {
 //        " in loaded scripts: " + ScriptLoader.getLoadedScripts());
     checkNotNull(pyComputationModule,
           "Could not find Jython Computation class " + className +
-          " in loaded scripts: " + _iScriptLoaderComponentImp.getLoadedScripts());
+          " in loaded scripts: " + _iScriptLoaderComponentImp.getArch().getLoadedScripts());
     
     setPythonComputationModule(pyComputationModule);
   }
@@ -85,7 +85,7 @@ public class JythonComputationFactory implements ComputationFactory {
       ImmutableClassesGiraphConfiguration conf) {
     checkNotNull(JYTHON_COMPUTATION_MODULE,
         "Jython Computation class not set in loaded scripts: " +
-        _iScriptLoaderComponentImp.getLoadedScripts());
+        _iScriptLoaderComponentImp.getArch().getLoadedScripts());
 
     PyObject pyComputationObj = JYTHON_COMPUTATION_MODULE.__call__();
     Object computeObj = pyComputationObj.__tojava__(JythonComputation.class);
