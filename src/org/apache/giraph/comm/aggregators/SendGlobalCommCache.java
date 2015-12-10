@@ -27,6 +27,9 @@ import org.apache.hadoop.io.Writable;
 
 import com.google.common.collect.Maps;
 
+import edu.umkc.arch.GiraphArch;
+import edu.umkc.arch.GiraphImpl;
+
 /**
  * Takes and serializes global communication values and keeps them grouped by
  * owner partition id, to be sent in bulk.
@@ -40,12 +43,14 @@ public class SendGlobalCommCache extends CountingCache {
   /** whether to write Class object for values into the stream */
   private final boolean writeClass;
 
+  public GiraphImpl gimpl = new GiraphImpl();
   /**
    * Constructor
    *
    * @param writeClass boolean whether to write Class object for values
    */
   public SendGlobalCommCache(boolean writeClass) {
+	
     this.writeClass = writeClass;
   }
 
@@ -63,7 +68,9 @@ public class SendGlobalCommCache extends CountingCache {
       GlobalCommType type, Writable value) throws IOException {
     GlobalCommValueOutputStream out = globalCommMap.get(taskId);
     if (out == null) {
-      out = new GlobalCommValueOutputStream(writeClass);
+    	out = gimpl.createInsta(writeClass);
+    	//new GlobalCommValueOutputStream(writeClass);
+      
       globalCommMap.put(taskId, out);
     }
     return out.addValue(name, type, value);

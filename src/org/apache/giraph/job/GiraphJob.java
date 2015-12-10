@@ -28,6 +28,8 @@ import org.apache.hadoop.ipc.Client;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.log4j.Logger;
 
+import edu.umkc.arch.GiraphImpl;
+
 import java.io.IOException;
 
 /**
@@ -48,6 +50,8 @@ public class GiraphJob {
   private String jobName;
   /** Helper configuration from the job */
   private final GiraphConfiguration giraphConfiguration;
+  
+  public GiraphImpl gimpl = new GiraphImpl();
 
   /**
    * Delegated job that simply passes along the class GiraphConfiguration.
@@ -265,7 +269,8 @@ public class GiraphJob {
                 (conf.getMinWorkers() + 1) + " mappers");
       }
       jobObserver.jobRunning(submittedJob);
-      HaltApplicationUtils.printHaltInfo(submittedJob, conf);
+      gimpl.printHaltInfo(submittedJob, conf);
+      //HaltApplicationUtils.printHaltInfo(submittedJob, conf);
 
       boolean passed = submittedJob.waitForCompletion(verbose);
       if (jobProgressTrackerService != null) {

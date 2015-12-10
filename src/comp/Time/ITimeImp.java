@@ -1,16 +1,18 @@
-package edu.umkc;
+package comp.Time;
 
 
-import edu.umkc.GiraphArch;
+import comp.Time.TimeArch;
 
-public interface IGiraphSingleImp 
+import org.apache.giraph.time.Time;
+
+public interface ITimeImp 
 {
 
 	/*
 	  Getter and Setter of architecture reference
 	*/
-    public void setArch (GiraphArch arch);
-	public GiraphArch getArch();
+    public void setArch (TimeArch arch);
+	public TimeArch getArch();
 	
 	/*
   	  Myx Lifecycle Methods: these methods are called automatically by the framework
@@ -24,4 +26,7 @@ public interface IGiraphSingleImp
 	/*
   	  Implementation primitives required by the architecture
 	*/
+  
+    //To be imported: Time
+    public Time getTime ()  ;        
 }

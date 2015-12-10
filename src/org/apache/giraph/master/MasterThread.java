@@ -30,6 +30,8 @@ import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 import org.apache.log4j.Logger;
 
+import edu.umkc.arch.GiraphImpl;
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -76,7 +78,8 @@ public class MasterThread<I extends WritableComparable, V extends Writable,
     super(MasterThread.class.getName());
     this.bspServiceMaster = bspServiceMaster;
     this.context = context;
-    GiraphTimers.init(context);
+    GiraphImpl._arch.OUT_IGiraphTimers.init(context);
+    //GiraphTimers.init(context); Code replaced by arch studio code
     superstepCounterOn = USE_SUPERSTEP_COUNTERS.get(context.getConfiguration());
   }
 
@@ -104,8 +107,10 @@ public class MasterThread<I extends WritableComparable, V extends Writable,
         // reads zookeeper for the list of healthy workers.
         bspServiceMaster.checkWorkers();
         initializeMillis = System.currentTimeMillis();
-        GiraphTimers.getInstance().getInitializeMs().increment(
-            initializeMillis - startMillis);
+        GiraphImpl._arch.OUT_IGiraphTimers.getInstance().getInitializeMs().increment();
+        //GiraphTimers.getInstance().getInitializeMs().increment( ----------  Code replace by Arch studio code
+           //initializeMillis - startMillis); 
+        
         // Attempt to create InputSplits if necessary. Bail out if that fails.
         if (bspServiceMaster.getRestartedSuperstep() !=
             BspService.UNSET_SUPERSTEP ||
@@ -113,7 +118,7 @@ public class MasterThread<I extends WritableComparable, V extends Writable,
                 bspServiceMaster.createVertexInputSplits() != -1 &&
                 bspServiceMaster.createEdgeInputSplits() != -1)) {
           long setupMillis = System.currentTimeMillis() - initializeMillis;
-          GiraphTimers.getInstance().getSetupMs().increment(setupMillis);
+          GiraphImpl._arch.OUT_IGiraphTimers.getInstance().getSetupMs().increment(setupMillis); //----------  Code replace by Arch studio code
           setupSecs = setupMillis / 1000.0d;
           while (!superstepState.isExecutionComplete()) {
             long startSuperstepMillis = System.currentTimeMillis();
@@ -137,8 +142,8 @@ public class MasterThread<I extends WritableComparable, V extends Writable,
             if (superstepCounterOn) {
               String computationName = (computationClass == null) ?
                   null : computationClass.getSimpleName();
-              GiraphTimers.getInstance().getSuperstepMs(cachedSuperstep,
-                  computationName).increment(superstepMillis);
+              GiraphImpl._arch.OUT_IGiraphTimers.getInstance().getSuperstepMs(cachedSuperstep,
+                  computationName).increment(superstepMillis); //----------  Code replace by Arch studio code
             }
 
             bspServiceMaster.postSuperstep();
@@ -155,8 +160,8 @@ public class MasterThread<I extends WritableComparable, V extends Writable,
       }
       bspServiceMaster.cleanup(superstepState);
       if (!superstepSecsMap.isEmpty()) {
-        GiraphTimers.getInstance().getShutdownMs().
-          increment(System.currentTimeMillis() - endMillis);
+        GiraphImpl._arch.OUT_IGiraphTimers.getInstance().getShutdownMs().
+          increment(System.currentTimeMillis() - endMillis);   //----------  Code replace by Arch studio code
         if (LOG.isInfoEnabled()) {
           LOG.info("setup: Took " + setupSecs + " seconds.");
         }
@@ -181,8 +186,8 @@ public class MasterThread<I extends WritableComparable, V extends Writable,
               ((System.currentTimeMillis() - initializeMillis) /
               1000.0d) + " seconds.");
         }
-        GiraphTimers.getInstance().getTotalMs().
-          increment(System.currentTimeMillis() - initializeMillis);
+        GiraphImpl._arch.OUT_IGiraphTimers.getInstance().getTotalMs().
+          increment(System.currentTimeMillis() - initializeMillis);       //----------  Code replace by Arch studio code
       }
       bspServiceMaster.postApplication();
       // CHECKSTYLE: stop IllegalCatchCheck

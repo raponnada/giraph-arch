@@ -52,6 +52,8 @@ import com.google.common.collect.MapMaker;
 import com.google.common.collect.Maps;
 import com.yammer.metrics.core.Counter;
 
+import edu.umkc.arch.GiraphImpl;
+
 /*if_not[HADOOP_NON_SECURE]*/
 import java.io.IOException;
 /*end[HADOOP_NON_SECURE]*/
@@ -152,11 +154,11 @@ public class NettyClient implements ResetSuperstepMetricsObserver {
   /** Number of channels per server */
   private final int channelsPerServer;
   /** Inbound byte counter for this client */
-  private final InboundByteCounter inboundByteCounter = new
-      InboundByteCounter();
+  private final InboundByteCounter inboundByteCounter = GiraphImpl._arch.OUT_IByteCounter.iobj();
+  //new   InboundByteCounter();
   /** Outbound byte counter for this client */
-  private final OutboundByteCounter outboundByteCounter = new
-      OutboundByteCounter();
+  private final OutboundByteCounter outboundByteCounter = GiraphImpl._arch.OUT_IByteCounter.oobj();
+      //new OutboundByteCounter();
   /** Send buffer size */
   private final int sendBufferSize;
   /** Receive buffer size */
@@ -710,8 +712,10 @@ public class NettyClient implements ResetSuperstepMetricsObserver {
       WritableRequest request) {
     InetSocketAddress remoteServer = taskIdAddressMap.get(destTaskId);
     if (clientRequestIdRequestInfoMap.isEmpty()) {
-      inboundByteCounter.resetAll();
-      outboundByteCounter.resetAll();
+    	GiraphImpl._arch.OUT_IByteCounter.iresetAll();
+    	GiraphImpl._arch.OUT_IByteCounter.oresetAll();
+      //inboundByteCounter.resetAll();
+      //outboundByteCounter.resetAll();
     }
     boolean registerRequest = true;
 /*if_not[HADOOP_NON_SECURE]*/
@@ -763,8 +767,9 @@ public class NettyClient implements ResetSuperstepMetricsObserver {
     waitSomeRequests(0);
     if (LOG.isInfoEnabled()) {
       LOG.info("waitAllRequests: Finished all requests. " +
-          inboundByteCounter.getMetrics() + "\n" + outboundByteCounter
-          .getMetrics());
+          GiraphImpl._arch.OUT_IByteCounter.igetMetrics() + "\n" + GiraphImpl._arch.OUT_IByteCounter.ogetMetrics());
+    		  //inboundByteCounter.getMetrics() + "\n" + outboundByteCounter
+          //.getMetrics());
     }
   }
 
@@ -808,8 +813,9 @@ public class NettyClient implements ResetSuperstepMetricsObserver {
           waitingRequestMsecs + " msecs, " +
           clientRequestIdRequestInfoMap.size() +
           " open requests, waiting for it to be <= " + maxOpenRequests +
-          ", " + inboundByteCounter.getMetrics() + "\n" +
-          outboundByteCounter.getMetrics());
+          ", " + GiraphImpl._arch.OUT_IByteCounter.igetMetrics() + "\n" + GiraphImpl._arch.OUT_IByteCounter.ogetMetrics()); 
+          //inboundByteCounter.getMetrics() + "\n" +
+          //outboundByteCounter.getMetrics());
 
       if (clientRequestIdRequestInfoMap.size() < MAX_REQUESTS_TO_LIST) {
         for (Map.Entry<ClientRequestId, RequestInfo> entry :

@@ -17,6 +17,9 @@
  */
 package org.apache.giraph.zk;
 
+//zooker internal interface of component  
+import edu.umkc.zk.ZkAdminImpl;
+
 
 import org.apache.giraph.bsp.BspService;
 import org.apache.giraph.conf.GiraphConfiguration;
@@ -58,7 +61,10 @@ public class GiraphZooKeeperAdmin implements Watcher, Tool {
 
   /** The configuration for this admin run */
   private Configuration conf;
-
+  
+  //zk object created to call function in zkAdminImpl
+  public ZkAdminImpl zkimpl = new ZkAdminImpl(); 
+  
   @Override
   public Configuration getConf() {
     return conf;
@@ -68,7 +74,7 @@ public class GiraphZooKeeperAdmin implements Watcher, Tool {
   public void setConf(Configuration conf) {
     this.conf = conf;
   }
-
+ 
   /**
    * Clean the ZooKeeper of all failed and cancelled in-memory
    * job remnants that pile up on the ZK quorum over time.
@@ -94,12 +100,14 @@ public class GiraphZooKeeperAdmin implements Watcher, Tool {
     out.println("[GIRAPH-ZKADMIN] Connecting on port: " + zkPort);
     out.println("[GIRAPH-ZKADMIN] to ZNode root path: " + zkBasePath);
     try {
-      ZooKeeperExt zooKeeper = new ZooKeeperExt(
+    	System.out.println("zookeeper initialized object creation");
+    	ZooKeeperExt zooKeeper = zkimpl.createInstance(formatZkServerList(zkServerList, zkPort), GiraphConstants.ZOOKEEPER_SESSION_TIMEOUT.getDefaultValue(), GiraphConstants.ZOOKEEPER_OPS_MAX_ATTEMPTS.getDefaultValue(), GiraphConstants.ZOOKEEPER_SERVERLIST_POLL_MSECS.getDefaultValue(), this);
+      /*ZooKeeperExt zooKeeper = new ZooKeeperExt(
         formatZkServerList(zkServerList, zkPort),
         GiraphConstants.ZOOKEEPER_SESSION_TIMEOUT.getDefaultValue(),
         GiraphConstants.ZOOKEEPER_OPS_MAX_ATTEMPTS.getDefaultValue(),
         GiraphConstants.ZOOKEEPER_SERVERLIST_POLL_MSECS.getDefaultValue(),
-        this);
+        this);*/
       doZooKeeperCleanup(zooKeeper, zkBasePath);
       return 0;
     } catch (KeeperException e) {
@@ -133,19 +141,22 @@ public class GiraphZooKeeperAdmin implements Watcher, Tool {
    */
   public void doZooKeeperCleanup(ZooKeeperExt zooKeeper, String zkBasePath)
     throws KeeperException, InterruptedException {
-    try {
-      zooKeeper.deleteExt(zkBasePath, -1, false);
+      //try {
+	  	System.out.println("zookeper cleanup");
+    	zkimpl.deleteExt(zooKeeper,zkBasePath, -1, false);
+    	//not required here due to component.
+      /*zooKeeper.deleteExt(zkBasePath, -1, false);
       out.println("[GIRAPH-ZKADMIN] Deleted: " + zkBasePath);
-    } catch (KeeperException.NotEmptyException e) {
+      } catch (KeeperException.NotEmptyException e) {
       List<String> childList =
         zooKeeper.getChildrenExt(zkBasePath, false, false, false);
       for (String child : childList) {
         String childPath = zkBasePath + "/" + child;
         doZooKeeperCleanup(zooKeeper, childPath);
       }
-      zooKeeper.deleteExt(zkBasePath, -1, false);
+      zooKeeper.deleteExt(zkBasePath, -1, false);*/
       out.println("[GIRAPH-ZKADMIN] Deleted: " + zkBasePath);
-    }
+    //}
   }
 
   /** Forms ZK server list in a format the ZooKeeperExt object

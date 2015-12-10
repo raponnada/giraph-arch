@@ -23,6 +23,11 @@ import org.apache.hadoop.mapreduce.Mapper.Context;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 
+import comp.GiraphTimers.GiraphTimersArch;
+import comp.GiraphTimers.GiraphTimersImp;
+import edu.umkc.arch.GiraphArch;
+import edu.umkc.counters.hcounter.IGiraphHadoopCounter;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,7 +35,10 @@ import java.util.Map;
 /**
  * Hadoop Counters in group "Giraph Timers" for timing things.
  */
-public class GiraphTimers extends HadoopCountersBase {
+  public class GiraphTimers extends HadoopCountersBase {
+	    
+  //public GiraphTimersArch arch = new GiraphTimersArch();
+	  
   /** Counter group name for the giraph timers */
   public static final String GROUP_NAME = "Giraph Timers";
   /** Counter name for setup msec */
@@ -69,7 +77,13 @@ public class GiraphTimers extends HadoopCountersBase {
    */
   private GiraphTimers(Context context) {
     super(context, GROUP_NAME);
-    jobCounters = new GiraphHadoopCounter[NUM_COUNTERS];
+    
+    GiraphTimersArch arch = GiraphTimersImp._arch;
+    arch.begin();
+    IGiraphHadoopCounter out = arch.OUT_IGiraphHadoopCounter;
+    		//out.createArrayInstance(NUM_COUNTERS);
+    jobCounters = out.createArrayInstance(NUM_COUNTERS);
+    		//new GiraphHadoopCounter[NUM_COUNTERS];  // -------- Code replaced by Arch code
     jobCounters[SETUP_MS] = getCounter(SETUP_MS_NAME);
     jobCounters[TOTAL_MS] = getCounter(TOTAL_MS_NAME);
     jobCounters[SHUTDOWN_MS] = getCounter(SHUTDOWN_MS_NAME);

@@ -53,8 +53,8 @@ public class GiraphAppRunner_PageRank implements Tool {
 	@Override
 	public int run(String[] argss) throws Exception {
 		// TODO Auto-generated method stub
-		setInputPath("/home/anvesh/Documents/Giraph/PageRank/input");
-		setOutputPath("/home/anvesh/Documents/Giraph/PageRank/output");
+		setInputPath("/home/spykid/sad/io/input-pr.txt");
+		setOutputPath("/home/spykid/sad/io/output");
 		
 		GiraphConfiguration giconf = new GiraphConfiguration(getConf());
         		

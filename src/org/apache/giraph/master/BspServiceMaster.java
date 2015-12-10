@@ -118,6 +118,8 @@ import org.json.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import edu.umkc.arch.GiraphImpl;
+
 /**
  * ZooKeeper-based implementation of {@link CentralizedServiceMaster}.
  *
@@ -921,14 +923,16 @@ public class BspServiceMaster<I extends WritableComparable,
           masterCompute.setMasterService(this);
 
           masterInfo = new MasterInfo();
-          masterServer =
-              new NettyMasterServer(getConfiguration(), this, getContext(),
+          masterServer = GiraphImpl._arch.OUT_IMasterServer.instantiate(getConfiguration(), this, getContext(),
                   getGraphTaskManager().createUncaughtExceptionHandler());
-          masterInfo.setInetSocketAddress(masterServer.getMyAddress());
+              //new NettyMasterServer(getConfiguration(), this, getContext(),
+                //  getGraphTaskManager().createUncaughtExceptionHandler());
+          masterInfo.setInetSocketAddress(GiraphImpl._arch.OUT_IMasterServer.getMyAddress());
           masterInfo.setTaskId(getTaskPartition());
-          masterClient =
-              new NettyMasterClient(getContext(), getConfiguration(), this,
-                  getGraphTaskManager().createUncaughtExceptionHandler());
+          masterClient = GiraphImpl._arch.OUT_IMasterClient.initialize(getContext(), getConfiguration(), this,
+                         getGraphTaskManager().createUncaughtExceptionHandler());
+              //new NettyMasterClient(getContext(), getConfiguration(), this,
+              //    getGraphTaskManager().createUncaughtExceptionHandler());
 
           if (LOG.isInfoEnabled()) {
             LOG.info("becomeMaster: I am now the master!");
@@ -1629,8 +1633,9 @@ public class BspServiceMaster<I extends WritableComparable,
       aggregatorTranslation.postMasterCompute();
       globalCommHandler.finishSuperstep();
     }
-
-    masterClient.openConnections();
+    
+    GiraphImpl._arch.OUT_IMasterClient.openConnections();
+    //masterClient.openConnections();
 
     GiraphStats.getInstance().
         getCurrentWorkers().setValue(chosenWorkerInfoList.size());
@@ -1670,6 +1675,7 @@ public class BspServiceMaster<I extends WritableComparable,
       // Initialize aggregators before coordinating
       initializeAggregatorInputSuperstep();
       if (getConfiguration().hasMappingInputFormat()) {
+    	  
         coordinateInputSplits(mappingInputSplitsPaths, mappingInputSplitsEvents,
             "Mapping");
       }
@@ -2010,8 +2016,10 @@ public class BspServiceMaster<I extends WritableComparable,
             "Killing this job."));
       }
       globalCommHandler.close();
-      masterClient.closeConnections();
-      masterServer.close();
+      GiraphImpl._arch.OUT_IMasterClient.closeConnections();
+      //masterClient.closeConnections();
+      GiraphImpl._arch.OUT_IMasterServer.close();
+      //masterServer.close();
     }
 
     try {

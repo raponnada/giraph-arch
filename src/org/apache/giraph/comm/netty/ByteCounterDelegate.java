@@ -22,11 +22,13 @@ import com.yammer.metrics.core.Histogram;
 import com.yammer.metrics.core.Meter;
 import com.yammer.metrics.core.NoOpHistogram;
 import com.yammer.metrics.core.NoOpMeter;
+
+import edu.umkc.arch.GiraphImpl;
 import io.netty.buffer.ByteBuf;
 import org.apache.giraph.metrics.MeterDesc;
 import org.apache.giraph.metrics.MetricNames;
 import org.apache.giraph.metrics.SuperstepMetricsRegistry;
-import org.apache.giraph.time.SystemTime;
+//import org.apache.giraph.time.SystemTime;
 import org.apache.giraph.time.Time;
 
 import java.text.DecimalFormat;
@@ -43,7 +45,8 @@ public class ByteCounterDelegate implements ByteCounter {
   private static final DecimalFormat DOUBLE_FORMAT =
       new DecimalFormat("#######.####");
   /** Class timer */
-  private static final Time TIME = SystemTime.get();
+  private static final Time TIME = new GiraphImpl().getTime();
+		  //SystemTime.get();           ----------    This code was replaced by Arch code above
   /** All bytes ever processed */
   private final AtomicLong bytesProcessed = new AtomicLong();
   /** Total processed requests */

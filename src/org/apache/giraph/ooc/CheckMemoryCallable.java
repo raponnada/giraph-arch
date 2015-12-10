@@ -30,6 +30,8 @@ import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.log4j.Logger;
 
+import edu.umkc.arch.GiraphImpl;
+
 import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.BrokenBarrierException;
@@ -83,7 +85,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CheckMemoryCallable<I extends WritableComparable,
     V extends Writable, E extends Writable> implements Callable<Void> {
-  /**
+  
+  public GiraphImpl gimpl = new GiraphImpl();
+ /**
    * Lowest free memory fraction to start doing necessary actions to go
    * out-of-core.
    */
@@ -204,11 +208,14 @@ public class CheckMemoryCallable<I extends WritableComparable,
     if (LOG.isInfoEnabled()) {
       LOG.info("call: check-memory thread started.");
     }
-    memoryEstimator.initialize(serviceWorker);
+    gimpl.init(memoryEstimator, serviceWorker);
+    //memoryEstimator.initialize(serviceWorker); ------- This is replaced by ArchStudio code
     CountDownLatch doneCompute = oocEngine.getDoneCompute();
     while (doneCompute.getCount() != 0) {
-      double maxMemory = memoryEstimator.maxMemoryMB();
-      double freeMemory = memoryEstimator.freeMemoryMB();
+      double maxMemory = gimpl.freeMB(memoryEstimator); 
+    		  //memoryEstimator.maxMemoryMB();   ------- This is replaced by ArchStudio code
+      double freeMemory = gimpl.maxMB(memoryEstimator);
+      		  //memoryEstimator.freeMemoryMB();  ------- This is replaced by ArchStudio code
       boolean gcDone = false;
       if (freeMemory < lowFreeMemoryFraction * maxMemory) {
         // This is typically a bad scenario where previous GCs were not
@@ -224,7 +231,8 @@ public class CheckMemoryCallable<I extends WritableComparable,
         long gcStartTime = System.currentTimeMillis();
         System.gc();
         gcDone = true;
-        freeMemory = memoryEstimator.freeMemoryMB();
+        freeMemory = gimpl.freeMB(memoryEstimator);
+        	//memoryEstimator.freeMemoryMB(); ------- This is replaced by ArchStudio code
         if (LOG.isInfoEnabled()) {
           LOG.info("call: GC is done. " + String
               .format("GC time = %.2f sec, and freeMemory = %.2fMB",
@@ -362,7 +370,8 @@ public class CheckMemoryCallable<I extends WritableComparable,
             System.gc();
             gcDone = true;
           }
-          freeMemory = memoryEstimator.freeMemoryMB();
+          freeMemory = gimpl.freeMB(memoryEstimator);  
+        		  //memoryEstimator.freeMemoryMB(); ------- This is replaced by ArchStudio code
           if (LOG.isInfoEnabled()) {
             LOG.info("call: " +
                 (gcDone ?

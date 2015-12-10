@@ -1,18 +1,20 @@
-package edu.umkc;
+package comp.Time;
 
-import edu.umkc.sad.GiraphAppRunner_PageRank;
 
-public class GiraphImp implements IGiraphSingleImp
+import org.apache.giraph.time.SystemTime;
+import org.apache.giraph.time.Time;
+
+public class TimeImp implements ITimeImp
 {
-	private GiraphArch _arch;
+	private TimeArch _arch;
 
-    public GiraphImp (){
+    public TimeImp (){
     }
 
-	public void setArch(GiraphArch arch){
+	public void setArch(TimeArch arch){
 		_arch = arch;
 	}
-	public GiraphArch getArch(){
+	public TimeArch getArch(){
 		return _arch;
 	}
 
@@ -25,12 +27,6 @@ public class GiraphImp implements IGiraphSingleImp
 	}
 	public void begin(){
 		//TODO Auto-generated method stub
-		try {
-			GiraphAppRunner_PageRank.main(null);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	public void end(){
 		//TODO Auto-generated method stub
@@ -42,4 +38,10 @@ public class GiraphImp implements IGiraphSingleImp
 	/*
   	  Implementation primitives required by the architecture
 	*/
+  
+    //To be imported: Time
+    public Time getTime ()   {
+    	System.out.println("Time implementation");
+		return SystemTime.get();
+    }
 }

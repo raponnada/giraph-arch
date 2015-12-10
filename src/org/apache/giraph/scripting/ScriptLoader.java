@@ -29,6 +29,8 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;
 
+import edu.umkc.arch.GiraphImpl;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -66,8 +68,8 @@ public class ScriptLoader {
    */
   public static void setScriptsToLoad(Configuration conf,
       String scriptPath, DeployType deployType, Language language) {
-    DeployedScript deployedScript = new DeployedScript(scriptPath,
-        deployType, language);
+    DeployedScript deployedScript = GiraphImpl._arch.OUT_IDeployedScript.createInstance(scriptPath,deployType, language);
+    		//new DeployedScript(scriptPath,deployType, language);
     setScriptsToLoad(conf, deployedScript);
   }
 
@@ -85,10 +87,11 @@ public class ScriptLoader {
   public static void setScriptsToLoad(Configuration conf,
       String script1, DeployType deployType1, Language language1,
       String script2, DeployType deployType2, Language language2) {
-    DeployedScript deployedScript1 = new DeployedScript(script1,
-        deployType1, language1);
-    DeployedScript deployedScript2 = new DeployedScript(script2,
-        deployType2, language2);
+    DeployedScript deployedScript1 = GiraphImpl._arch.OUT_IDeployedScript.createInstance(script1,deployType1, language1);
+    		
+    		// new DeployedScript(script1,deployType1, language1);
+    DeployedScript deployedScript2 = GiraphImpl._arch.OUT_IDeployedScript.createInstance(script2,deployType2, language2);
+    		//new DeployedScript(script2,deployType2, language2);
     setScriptsToLoad(conf, deployedScript1, deployedScript2);
   }
 
@@ -114,7 +117,8 @@ public class ScriptLoader {
    */
   public static void addScriptToLoad(Configuration conf,
       String script, DeployType deployType, Language language) {
-    addScriptToLoad(conf, new DeployedScript(script, deployType, language));
+    addScriptToLoad(conf,  GiraphImpl._arch.OUT_IDeployedScript.createInstance(script, deployType, language));
+    		//new DeployedScript(script, deployType, language));
   }
 
   /**

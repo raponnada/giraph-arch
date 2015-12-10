@@ -26,6 +26,7 @@ import org.apache.giraph.time.Time;
 import org.apache.giraph.time.Times;
 import org.apache.log4j.Logger;
 
+import edu.umkc.arch.GiraphImpl;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -99,9 +100,12 @@ public abstract class RequestServerHandler<R> extends
 
     // Only execute this request exactly once
     int alreadyDone = 1;
-    if (workerRequestReservedMap.reserveRequest(
+    /*
+     * workerRequestReservedMap.reserveRequest(    Code replace by Arch code
         request.getClientId(),
-        request.getRequestId())) {
+        request.getRequestId()) 
+     */
+    if (GiraphImpl._arch.OUT_IWorkerRequestMap.reserveRequest(workerRequestReservedMap, request.getClientId(), request.getRequestId())) {
       if (LOG.isDebugEnabled()) {
         startProcessingNanoseconds = TIME.getNanoseconds();
       }
